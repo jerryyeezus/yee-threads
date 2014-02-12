@@ -1,32 +1,52 @@
 #Yee-Threads (a user-space threading library)
-Jerry Yee
+Author: Jerry Yee
 
 #Platform
 
 Linux 12.04 64-bit
 
-#Preemptive Scheduler
+#API
 
-There is a global variable that stores the scheduling period called sched-period. On init(), it initializes a doubly linked list containing the gtthreads struct. The struct members for gtthreads is the context pointer, thread ID, routine, and retVal. 
+Yeethreads provides the following API for thread and mutex operations:
 
-A function called start-timer() is called whenever starting or restarting the SIGPROF timer. The handler called context-handler() is triggered whenever the timer expires or whenever there is a yield or thread return. The two possible input signals (SIGPROF or THREADDEAD) reflect these cases.
+* void yeethread_init(long period);
+* int  yeethread_create(yeethread_t *thread,
+                     void *(*start_routine)(void *),
+                     void *arg);
+* int  yeethread_join(yeethread_t thread, void **status);
+* void yeethread_exit(void *retval);
+* int  yeethread_yield(void);
+* int  yeethread_equal(yeethread_t t1, yeethread_t t2);
+* int  yeethread_cancel(yeethread_t thread);
+* yeethread_t yeethread_self(void);
+* int  yeethread_mutex_init(yeethread_mutex_t *mutex);
+* int  yeethread_mutex_lock(yeethread_mutex_t *mutex);
+* int  yeethread_mutex_unlock(yeethread_mutex_t *mutex);
 
-This function restarts the timer and updates the current-node global variable to point to the next thread's struct. Finally, it calls swap context on the previous context and the new context, respectively. 
+######Behavior of function yeethread_* is synononmous with pthread_* with the exception of yeethread_init, which does not exist for pthreads. yeethread_init() takes a long integer as input which will be used as the round-robin scheduling period.
 
 #Compiliation
 
-make clean
-make
-gcc <your_file> gtthreads.a
+To compile the yeethreads.a library file, simply type
 
-#Dining Philosophers
+```
+  make
+```
 
-To run, use ./dining
+#Usage
 
-Order the philosophers 1-5.
+Simply #include "yeethreads.h" in your file.
+  
+```
+  gcc <your_file> yeethreads.a
+```
 
-Make it so odd philosophers pick up left chopstick first and then right. For even philosophers, pick up right first then left. This ensures that at *worst*, there is at least one philosopher actually eating. When he finishes, he will release his sticks and let others have at it.
+#Dining Philosophers Example
 
-#Final Thoughts
-^_^
+To run, use 
+
+```
+./dining
+```
+
 
