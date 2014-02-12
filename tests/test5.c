@@ -1,8 +1,8 @@
 // Test5
-// gtthread_equal.
+// yeethread_equal.
 
 #include <stdio.h>
-#include "gtthread.h"
+#include "yeethread.h"
 
 void* worker(void* arg)
 {
@@ -12,20 +12,20 @@ void* worker(void* arg)
 
 int main()
 {
-	gtthread_t th1, th2;
+	yeethread_t th1, th2;
 
-	gtthread_init(1000);
+	yeethread_init(1000);
 
-	gtthread_create(&th1, worker, (void*)1);
-	gtthread_create(&th2, worker, (void*)1);
+	yeethread_create(&th1, worker, (void*)1);
+	yeethread_create(&th2, worker, (void*)1);
 
-	if(gtthread_equal(th1, th2)) {
+	if(yeethread_equal(th1, th2)) {
 		fprintf(stderr, 
 				"!ERROR! They are different! %p, %p\n",
 				th1, th2);
 	}
 
-	gtthread_join(th1, NULL);
-	gtthread_join(th2, NULL);
+	yeethread_join(th1, NULL);
+	yeethread_join(th2, NULL);
 	return 0;
 }

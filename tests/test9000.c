@@ -1,8 +1,8 @@
 // Test7
-// gtthread_cancel. The program should terminate smoothly.
+// yeethread_cancel. The program should terminate smoothly.
 
 #include <stdio.h>
-#include "gtthread.h"
+#include "yeethread.h"
 
 void* worker2 ( void* arg )
 {
@@ -14,13 +14,13 @@ void* worker2 ( void* arg )
 
 void* worker ( void* arg )
 {
-    gtthread_t th;
+    yeethread_t th;
 
-    gtthread_create ( &th, worker2, NULL );
+    yeethread_create ( &th, worker2, NULL );
     printf ( "foo\n" );
-    gtthread_cancel ( th );
+    yeethread_cancel ( th );
     printf ( "bar\n" );
-    gtthread_join ( th, NULL );
+    yeethread_join ( th, NULL );
     printf ( "baz\n" );
 
     while ( 1 );
@@ -28,15 +28,15 @@ void* worker ( void* arg )
 
 int main()
 {
-    gtthread_t th;
+    yeethread_t th;
 
-    gtthread_init ( 1000 );
-gtthread_join(444, NULL);
+    yeethread_init ( 1000 );
+yeethread_join(444, NULL);
 /*
-    gtthread_create ( &th, worker, NULL );
-    gtthread_cancel ( th );
+    yeethread_create ( &th, worker, NULL );
+    yeethread_cancel ( th );
     printf ( "try to join in main\n" );
-    gtthread_join ( th, NULL );
+    yeethread_join ( th, NULL );
     printf ( "succeed????\n" );
 */
     return 0;

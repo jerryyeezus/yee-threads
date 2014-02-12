@@ -1,10 +1,10 @@
 // Test2
-// Join multiple threads, and check values returned by gtthread_exit.
+// Join multiple threads, and check values returned by yeethread_exit.
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "gtthread.h"
+#include "yeethread.h"
 
 #define NUM_THREADS 100
 
@@ -14,13 +14,13 @@ void* worker(void* arg)
 {
 	long i = (long) arg;
 
-	gtthread_exit((void*) g_return_values[i]);
+	yeethread_exit((void*) g_return_values[i]);
 	return NULL;
 }
 
 int main()
 {
-	gtthread_t threads[NUM_THREADS];
+	yeethread_t threads[NUM_THREADS];
 	void* rets[NUM_THREADS];
 	int i = 0;
 
@@ -31,14 +31,14 @@ int main()
 		g_return_values[i] = rand();
 	}
 
-	gtthread_init(1000);
+	yeethread_init(1000);
 
 	for (i = 0; i < NUM_THREADS; ++i) {
-		gtthread_create(&threads[i], worker, (void*) i);
+		yeethread_create(&threads[i], worker, (void*) i);
 	}
 
 	for (i = 0; i < NUM_THREADS; ++i) {
-		gtthread_join(threads[i], &rets[i]);
+		yeethread_join(threads[i], &rets[i]);
 	}
 
 	// Check return values

@@ -3,12 +3,12 @@
 
 #include <stdio.h>
 #include <time.h>
-#include "gtthread.h"
+#include "yeethread.h"
 
 #define LOOP 100
 
-gtthread_t g_th1, g_th2;
-gtthread_mutex_t g_mutex;
+yeethread_t g_th1, g_th2;
+yeethread_mutex_t g_mutex;
 int g_num = 0;
 
 void* producer ( void* arg )
@@ -17,9 +17,9 @@ void* producer ( void* arg )
 
     for ( i=0; i < LOOP; i++ )
     {
-        gtthread_mutex_lock ( &g_mutex );
+        yeethread_mutex_lock ( &g_mutex );
         ++g_num;
-        gtthread_mutex_unlock ( &g_mutex );
+        yeethread_mutex_unlock ( &g_mutex );
 
         for ( j=0; j < rand() % 999999; ++j );
     }
@@ -31,9 +31,9 @@ void* consumer ( void* arg )
 
     for ( i=0; i < LOOP; i++ )
     {
-        gtthread_mutex_lock ( &g_mutex );
+        yeethread_mutex_lock ( &g_mutex );
         --g_num;
-        gtthread_mutex_unlock ( &g_mutex );
+        yeethread_mutex_unlock ( &g_mutex );
 
         for ( j=0; j < rand() % 999999; ++j );
     }
@@ -41,19 +41,19 @@ void* consumer ( void* arg )
 
 int main()
 {
-    gtthread_t th1, th2;
+    yeethread_t th1, th2;
 
     srand ( time ( NULL ) );
 
-    gtthread_init ( 1000 );
+    yeethread_init ( 1000 );
 
-    gtthread_mutex_init ( &g_mutex );
+    yeethread_mutex_init ( &g_mutex );
 
-    gtthread_create ( &th1, producer, NULL );
-    gtthread_create ( &th2, consumer, NULL );
+    yeethread_create ( &th1, producer, NULL );
+    yeethread_create ( &th2, consumer, NULL );
 
-    gtthread_join ( th1, NULL );
-    gtthread_join ( th2, NULL );
+    yeethread_join ( th1, NULL );
+    yeethread_join ( th2, NULL );
 
     if ( g_num != 0 )
     {

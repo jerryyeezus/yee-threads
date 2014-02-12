@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "gtthread.h"
+#include "yeethread.h"
 
 const char* g_str = "hello world\n";
 const long g_ret = 0xF0F0F0F0;
@@ -20,14 +20,14 @@ void* worker(void* arg)
 
 int main()
 {
-	gtthread_t th1;
+	yeethread_t th1;
 	void* ret;
 
-	gtthread_init(1000);
+	yeethread_init(1000);
 
-	gtthread_create(&th1, worker, (void*) g_str);
+	yeethread_create(&th1, worker, (void*) g_str);
 
-	gtthread_join(th1, &ret);
+	yeethread_join(th1, &ret);
 
 	if ((long) ret != g_ret) {
 		fprintf(stderr, 

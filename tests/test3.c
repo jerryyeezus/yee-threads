@@ -2,7 +2,7 @@
 // Main exit. Program must terminate smoothly.
 
 #include <stdio.h>
-#include "gtthread.h"
+#include "yeethread.h"
 
 void* worker(void* arg)
 {
@@ -11,14 +11,14 @@ void* worker(void* arg)
 
 int main()
 {
-	gtthread_t th1;
+	yeethread_t th1;
 
-	gtthread_init(1000);
+	yeethread_init(1000);
 
-	gtthread_create(&th1, worker, NULL);
+	yeethread_create(&th1, worker, NULL);
 
 	printf("main exit\n");
 
-	gtthread_exit(NULL);
+	yeethread_exit(NULL);
 	return 0;
 }
