@@ -1,4 +1,4 @@
-#### GTThread Library Makefile
+#### yeethread Library Makefile
 
 CFLAGS  = -Wall -pedantic -g
 LFLAGS  =
@@ -7,9 +7,9 @@ RM      = /bin/rm -rf
 AR      = ar rc
 RANLIB  = ranlib
 
-LIBRARY = gtthread.a
+LIBRARY = yeethread.a
 
-LIB_SRC = gtthread.c list.c
+LIB_SRC = yeethread.c list.c
 
 LIB_OBJ = $(patsubst %.c,%.o,$(LIB_SRC))
 
@@ -18,7 +18,7 @@ LIB_OBJ = $(patsubst %.c,%.o,$(LIB_SRC))
 	$(CC) -c $(CFLAGS) $< -o $@
 
 all: $(LIBRARY)
-	gcc -Wall -pedantic -o dining dining.c gtthread.a -g
+	gcc -Wall -pedantic -o dining dining.c yeethread.a -g
 
 $(LIBRARY): $(LIB_OBJ)
 	$(AR) $(LIBRARY) $(LIB_OBJ)
